@@ -1,5 +1,6 @@
 package com.friend.learndi.ui
 
 import androidx.lifecycle.ViewModel
+import com.friend.learndi.data.UserRepository
 
-class LoginViewModel : ViewModel()
+class LoginViewModel(private val userRepository: UserRepository) : ViewModel()
