@@ -1,3 +1,9 @@
 package com.friend.learndi.data
 
-class UserRemoteDataSource(loginRetrofitService: LoginRetrofitService)
+import android.util.Log
+
+class UserRemoteDataSource(loginRetrofitService: LoginRetrofitService){
+    fun getName(){
+        Log.d("DI-Sample", "UserRemoteDataSource")
+    }
+}
