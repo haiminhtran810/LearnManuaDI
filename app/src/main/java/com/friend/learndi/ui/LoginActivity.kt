@@ -5,21 +5,31 @@ package com.friend.learndi.ui
 * */
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.friend.learndi.AppContainer
 import com.friend.learndi.DIApplication
 import com.friend.learndi.R
+import com.friend.learndi.data.LoginUserData
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var loginViewModel: LoginViewModel
+    private var loginViewModel: LoginViewModel? = null
+    private var appContainer: AppContainer? = null
+    private var loginData: LoginUserData? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val appContainer = (application as DIApplication).appContainer
-        val loginViewModel = appContainer.loginViewModelFactory.create()
-        loginViewModel.getName()
-        /*
-        * But there are still some challenges :
-        * 1. You have to manage AppContainer yourself, creating instances for all dependencies by hand.
-        * 2. There is still a lot of boilerplate code. You need to crate factories or parameters by hands depending on whether you want to reuse or not
-        * */
+        appContainer = (application as DIApplication).appContainer
+        appContainer?.let {
+            it.loginContainer = LoginContainer(it.userRepository)
+            val loginViewModel = it.loginContainer?.loginViewModelFactory?.create()
+            loginData = appContainer?.loginContainer?.loginData
+        }
+    }
+
+    override fun onDestroy() {
+        // if container do not need to use. I might remember to delete
+        if (loginData != null) {
+            appContainer?.loginContainer = null
+        }
+        super.onDestroy()
     }
 }
