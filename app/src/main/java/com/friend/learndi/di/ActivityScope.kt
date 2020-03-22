@@ -2,7 +2,7 @@ package com.friend.learndi.di
 
 import javax.inject.Scope
 
+// Definition of a custom scope called ActivityScope
 @Scope
-@MustBeDocumented
 @Retention(value = AnnotationRetention.RUNTIME)
-annotation class MyCustomScope
+annotation class ActivityScope

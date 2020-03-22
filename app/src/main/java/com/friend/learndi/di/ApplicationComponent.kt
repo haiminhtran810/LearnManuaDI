@@ -13,10 +13,9 @@ import javax.inject.Singleton
 * @Component tells Dagger to generate a container with all the dependencies required to satisfy the types it exposes
 * */
 @Singleton
-@Component(modules = [NetworkModule::class])
-interface ApplicationGraph {
-
-    // This tells Dagger that LoginActivity requests injection so the graph needs to
-    // satisfy all the dependencies of the fields that LoginActivity is requesting.
-    fun inject(activity: LoginActivity)
+@Component(modules = [NetworkModule::class, SubcomponentsModule::class])
+interface ApplicationComponent {
+    // This function exposes the LoginComponent Factory out of the graph so consumers
+    // can use it to obtain new instances of LoginComponent
+    fun loginComponent(): LoginComponent.Factory
 }
