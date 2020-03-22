@@ -1,12 +1,17 @@
 package com.friend.learndi.data
 
-import android.util.Log
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserRepository(
+/*
+* @Inject lets Dagger know how to create instances of this object
+* */
+@Singleton
+class UserRepository @Inject constructor(
     private val localDataSource: UserLocalDataSource,
     private val remoteDataSource: UserRemoteDataSource
 ) {
-    fun getName() {
-        Log.d("DI-Sample", "${localDataSource.getName()} - ${remoteDataSource.getName()} ")
+    fun getStringName(): String? {
+        return "${localDataSource.getStringName()} - ${remoteDataSource.getStringName()}"
     }
 }
