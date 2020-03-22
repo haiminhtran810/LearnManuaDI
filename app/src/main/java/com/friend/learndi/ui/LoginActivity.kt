@@ -4,32 +4,22 @@ package com.friend.learndi.ui
 * https://developer.android.com/training/dependency-injection/manual
 * */
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.friend.learndi.AppContainer
 import com.friend.learndi.DIApplication
-import com.friend.learndi.R
-import com.friend.learndi.data.LoginUserData
+import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
-    private var loginViewModel: LoginViewModel? = null
-    private var appContainer: AppContainer? = null
-    private var loginData: LoginUserData? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        appContainer = (application as DIApplication).appContainer
-        appContainer?.let {
-            it.loginContainer = LoginContainer(it.userRepository)
-            val loginViewModel = it.loginContainer?.loginViewModelFactory?.create()
-            loginData = appContainer?.loginContainer?.loginData
-        }
-    }
+    // You want Dagger to provide an instance of LoginViewModel from the graph
+    @Inject
+    lateinit var loginViewModel: LoginViewModel
 
-    override fun onDestroy() {
-        // if container do not need to use. I might remember to delete
-        if (loginData != null) {
-            appContainer?.loginContainer = null
-        }
-        super.onDestroy()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        // Make Dagger instantiate @Inject fields in LoginActivity
+        (applicationContext as DIApplication).applicationGraph.inject(this)
+        // Now loginViewModel is available
+        super.onCreate(savedInstanceState)
+        val name = loginViewModel.getStringName()
+        Log.d("LoginActivity", name)
     }
 }

@@ -1,9 +1,9 @@
 package com.friend.learndi.data
 
-import android.util.Log
+import javax.inject.Inject
 
-class UserRemoteDataSource(loginRetrofitService: LoginRetrofitService){
-    fun getName(){
-        Log.d("DI-Sample", "UserRemoteDataSource")
+class UserRemoteDataSource @Inject constructor(private val loginService: LoginRetrofitService) {
+    fun getStringName(): String? {
+        return "UserRemoteDataSource"
     }
 }

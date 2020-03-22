@@ -1,9 +1,9 @@
 package com.friend.learndi.data
 
-import android.util.Log
+import javax.inject.Inject
 
-class UserLocalDataSource {
-    fun getName() {
-        Log.d("DI-Sample", "UserLocalDataSource")
+class UserLocalDataSource @Inject constructor(){
+    fun getStringName():String?{
+        return "UserLocalDataSource"
     }
 }
